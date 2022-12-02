@@ -64,7 +64,7 @@ https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d6
 
 - node: ast の情報
 - incremet_by: Cognitive Complexity の加算情報。初期値は0
-- verbose: なんだろこれ？
+- verbose: 謎変数。常に False になる
 
 を渡す。
 
@@ -74,9 +74,11 @@ https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d6
 
 ### process_node_itself
 
+自分自身の node の cognitive conplexity を求める。
+
 https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d64a7fc1242/cognitive_complexity/utils/ast.py#L71-L87
 
-引数に ast と nesting のデータを受け取る。
+引数に ast と increment_by のデータを受け取る。
 
 まずは条件定義である。`control_flow_breakers` では、制御フロー中で流れが途切れてしまうような条件を tuple で定義する。`control_flow_breakers` には if, while, for, ifexp, execption がある。
 
@@ -106,14 +108,34 @@ https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d6
 
 - node: If で、node.orelse(elif) が一つあるとき
 
+これ、どういうことかというと、if ... elif の時。
+
+https://docs.python.org/ja/3/library/ast.html#ast.If
+
+こういう時はインクリメントされない。switch 文はインクリメントされないので、elif のように並列に計算する場合には問題ない。
+
 - node: ExceptHandler(error) の時
 
 これ以上何も起きないので、単純に+1 をして返す。
 
 - node: node.orelse の時
 
+ネストが一つ深くなった処理が実行されるので、ネスト分で incremnt +1 される。
+
 - それら以外
 
 for, while の時なので、単純に +1 して返す
 
-以上のような処理がされている。最終的に返す値として、`increment_by, max(1, increment_by) + increment, True` を返している。
+以上のような処理がされている。最終的に返す値として、`increment_by, max(1, increment_by) + increment, True` を返している。`increment_by` は単純に +1 される node であったか。`max(1, increment_by) + increment` では、この node 自体の Cognitive Complexity を表現するために返している。最後に True を返すのは、のちにまだ分岐あるよーというフラグになるためである。
+
+### process_child_nodes
+
+先ほどの `process_node_itself` を使って導出した値とは別に、その子供の node の Cognitive Complexity を求める。
+
+https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d64a7fc1242/cognitive_complexity/utils/ast.py#L28-L42
+
+引数として、
+- node: AST データ
+- increment_by: int
+- verbose: 謎変数
+- complexity_calculator: 関数(今回は `get_cognitive_complexity_for_node`)
