@@ -1,4 +1,4 @@
 # お試し
 
-https://github.com/Melevir/cognitive_complexity/blob/1cb05131e1abe20b78abcb5f97996090724defb2/cognitive_complexity/api.py#L1-L7
+https://github.com/chamegashi/2022_12_rinko/blob/9a498b625a1d9ba8946478144ae9e8e98799777c/cognitive_complexity/api.py#L1-L7
 
