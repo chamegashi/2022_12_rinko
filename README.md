@@ -139,3 +139,7 @@ https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d6
 - increment_by: int
 - verbose: 謎変数
 - complexity_calculator: 関数(今回は `get_cognitive_complexity_for_node`)
+
+ここでやってることはほとんどさっきと一緒。`get_cognitive_complexity_for_node` 関数を使って congitive complexity を求めたが、先ほどは自分自身の node に対してのみだった。次にはその子供の node もチェックしようねというだけである。あとは一番子供までぐるぐる回して、総 cognitive complexity を求めるという感じ。
+
+
