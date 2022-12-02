@@ -24,7 +24,7 @@ https://github.com/chamegashi/2022_12_rinko/blob/9a498b625a1d9ba8946478144ae9e8e
 
 https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d64a7fc1242/cognitive_complexity/api.py#L9-L18
 
-外部から呼び出すときには、この `get_cognitive_complexity` がメインとして呼ばれる。引数は`AnyFuncdef`である。これはこのリポジトリで独自に定義されているものである。コードは以下になる。
+外部から呼び出すときには、この `get_cognitive_complexity` がメインとして呼ばれる。引数は`AnyFuncdef`で、返り値は `int` である。`AnyFancdef`はこのリポジトリで独自に定義されているものである。コードは以下になる。
 
 https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d64a7fc1242/cognitive_complexity/common_types.py#L1-L5
 
@@ -37,4 +37,6 @@ https://qiita.com/maueki/items/8f1e190681682ea11c98
 
 https://github.com/chamegashi/2022_12_rinko/blob/9ef99477327ce876e6bfe576d5d52d64a7fc1242/cognitive_complexity/utils/ast.py#L19-L25
 
-`is_decorator` では python の機能であるデコレータであるかどうか判定する。
+`is_decorator` では python の機能であるデコレータであるかどうか判定する。Cognitive Complexity ではデコレータが使われている場合には例外的な処理がおこわなれる。デコレータでネストされた場合には、nesting が起きないという処理である。
+https://www.sonarsource.com/docs/CognitiveComplexity.pdf
+
